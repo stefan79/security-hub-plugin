@@ -3,6 +3,7 @@
 // const gremlin = require('gremlin')
 const Promise = require('bluebird')
 const R = require('ramda')
+const axios = require('axios')
 const { config, SecurityHub } = require('aws-sdk')
 
 config.setPromisesDependency(Promise)
@@ -49,13 +50,27 @@ module.exports.updateFindings = async (event) => {
     return self.indexOf(value) === index
   }
 
-  return collection.flat().map(finding => ({
+  const result = collection.flat().map(finding => ({
     'resource-id': finding.resources[0],
     'finding-id': finding.id,
     label: finding.label,
     description: finding.description,
     status: finding.status,
     debug: JSON.stringify(finding)
-  }))
+  })).slice(0, 10)
+
+  console.log(result)
+
+  const request = {
+    method: 'POST',
+    url: process.env.FINDING_ENDPOINT_URL,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.FINDING_APIKEY
+    },
+    data: result
+  }
+
+  return axios(request)  
   // return collection.flat().map(x => x.resources).flat().filter(onlyUnique).sort()
 }
