@@ -37,40 +37,24 @@ module.exports.updateFindings = async (event) => {
       hasMore = false
     }
   }
-
-  /*
-    {resource-id: arn,
-    finding-id: id,
-    label: text
-    debug: JSON
-    }
-  */
-
-  function onlyUnique (value, index, self) {
-    return self.indexOf(value) === index
-  }
-
   const result = collection.flat().map(finding => ({
     'resource-id': finding.resources[0],
     'finding-id': finding.id,
     label: finding.label,
     description: finding.description,
-    status: finding.status,
-    debug: JSON.stringify(finding)
-  })).slice(0, 10)
-
-  console.log(result)
+    status: finding.status//,
+    // debug: JSON.stringify(finding)
+  }))
 
   const request = {
     method: 'POST',
     url: process.env.FINDING_ENDPOINT_URL,
     headers: {
-      'Content-Type': 'application/json',
       'x-api-key': process.env.FINDING_APIKEY
     },
     data: result
   }
 
-  return axios(request)  
+  return axios(request).then(result => ({ responseCode: 200, body: 'Findings Added' }))
   // return collection.flat().map(x => x.resources).flat().filter(onlyUnique).sort()
 }
