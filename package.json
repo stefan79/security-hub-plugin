@@ -1,0 +1,28 @@
+{
+  "name": "security-hub-plugin",
+  "version": "1.0.0",
+  "main": "handle.js",
+  "license": "MIT",
+  "scripts": {
+    "sls-tail-log": "AWS_PROFILE=serverless-deploy AWS_SDK_LOAD_CONFIG=1 sls logs -f update -t",
+    "sls-deploy": "AWS_PROFILE=serverless-deploy AWS_SDK_LOAD_CONFIG=1 sls deploy --verbose",
+    "sls-remove": "AWS_PROFILE=serverless-deploy AWS_SDK_LOAD_CONFIG=1 sls remove --verbose",
+    "sls-invoke-local": "AWS_PROFILE=developer AWS_SDK_LOAD_CONFIG=1 sls invoke local --function updateFindings",
+    "sls-invoke": "AWS_PROFILE=developer AWS_SDK_LOAD_CONFIG=1 sls invoke --function updateFindings"
+  },
+  "engines": {
+    "node": "~12.20.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "ramda": "^0.27.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "~2.771.0",
+    "eslint": "^7.12.1",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  }
+}

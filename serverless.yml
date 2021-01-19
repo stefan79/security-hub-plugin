@@ -1,0 +1,51 @@
+service: plugin-securityhub
+app: enbw-inventory
+org: codecentric
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-central-1
+#  apiGateway:
+#    shouldStartNameWithService: true
+
+  #Is required otherwise config changes break
+  #See: https://github.com/serverless/serverless/issues/7822
+  versionFunctions: false
+
+# you can add statements to the Lambda function's IAM Role here
+  iamRoleStatements:
+#    - Effect: "Allow" 
+#      Action:
+#        - "neptune-db:*"
+#      Resource: "${ssm:/scanner/inventory/graph/arn}/*"
+#    - Effect: "Allow"
+#      Action:
+#        - "s3:GetObject"
+#      Resource: "arn:aws:s3:::${ssm:/report/config/bucket}/*"
+
+functions:
+  updateFindings:
+    handler: handler.updateFindings
+    timeout: 30
+#    vpc:
+#      securityGroupIds:
+#        - sg-075e46acb38d75c49
+#        - ${ssm:/scanner/inventory/vpc/security-group}
+#      subnetIds:
+#        - ${ssm:/scanner/inventory/vpc/sub-nets/a}
+#        - ${ssm:/scanner/inventory/vpc/sub-nets/b}
+#        - ${ssm:/scanner/inventory/vpc/sub-nets/c}
+
+    environment:
+#      CONFIG_BUCKET: ${ssm:/report/config/bucket}
+#      GRAPH_ENDPOINT_URL: ${ssm:/scanner/graph/query/endpoint}
+#      GRAPH_APIKEY: ${ssm:/aws/reference/secretsmanager/QueryServiceKey~true}
+#    events:
+#      - http:
+#          path: /report
+#          method: get
+#          private: true
