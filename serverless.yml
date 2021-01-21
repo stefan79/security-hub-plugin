@@ -30,5 +30,5 @@ functions:
     timeout: 30
 
     environment:
-      FINDING_ENDPOINT_URL: ${ssm:/scanner/graph/addFindings/endpoint}
-      FINDING_APIKEY: ${ssm:/aws/reference/secretsmanager/FindingServiceKey~true}
+      FINDING_ENDPOINT_URL: "${ssm:/scanner/graph/enricher/endpoint}/finding"
+      FINDING_APIKEY: ${ssm:/aws/reference/secretsmanager/EnricherServiceKey~true}
